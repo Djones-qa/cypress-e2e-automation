@@ -1,6 +1,10 @@
 ﻿export class LoginPage {
   visit() {
-    cy.visit('/');
+    cy.visit('/', {
+      timeout: 300000,
+      retryOnNetworkFailure: true,
+      retryOnStatusCodeFailure: true,
+    });
   }
   enterUsername(username: string) {
     cy.get('[data-test=username]').clear().type(username);

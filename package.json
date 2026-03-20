@@ -1,0 +1,19 @@
+{
+  "name": "cypress-e2e-automation",
+  "version": "1.0.0",
+  "description": "Cypress E2E automation suite for SauceDemo using TypeScript and Page Object Model",
+  "scripts": {
+    "test": "cypress run",
+    "test:headed": "cypress run --headed",
+    "test:open": "cypress open",
+    "test:auth": "cypress run --spec cypress/e2e/auth.cy.ts",
+    "test:checkout": "cypress run --spec cypress/e2e/checkout.cy.ts"
+  },
+  "author": "Darrius Jones",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "cypress": "^13.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,62 +1,31 @@
 ﻿import LoginPage from '../pages/LoginPage';
-import InventoryPage from '../pages/InventoryPage';
-import CartPage from '../pages/CartPage';
-import CheckoutPage from '../pages/CheckoutPage';
 
-describe('Checkout Journey', () => {
+describe('Logged In Area', () => {
   beforeEach(() => {
-    cy.session('user', () => {
-      LoginPage.visit();
-      LoginPage.login('standard_user', 'secret_sauce');
-    });
-    cy.visit('/inventory.html');
+    LoginPage.visit();
+    LoginPage.login('student', 'Password123');
+    cy.url().should('include', 'logged-in-successfully');
   });
 
-  it('should complete full checkout journey', () => {
-    InventoryPage.addToCart('Sauce Labs Backpack');
-    InventoryPage.getCartCount().should('contain', '1');
-    InventoryPage.goToCart();
-    CartPage.assertOnCartPage();
-    CartPage.getCartItems().should('have.length', 1);
-    CartPage.proceedToCheckout();
-    CheckoutPage.fillShippingInfo('Darrius', 'Jones', '44870');
-    CheckoutPage.continue();
-    CheckoutPage.finish();
-    CheckoutPage.assertOrderConfirmed();
+  it('should show success heading after login', () => {
+    cy.get('h1').should('contain', 'Logged In Successfully');
   });
 
-  it('should add multiple products and verify cart count', () => {
-    InventoryPage.addToCart('Sauce Labs Backpack');
-    InventoryPage.addToCart('Sauce Labs Bike Light');
-    InventoryPage.addToCart('Sauce Labs Bolt T-Shirt');
-    InventoryPage.getCartCount().should('contain', '3');
+  it('should show congratulations message', () => {
+    cy.get('p').should('contain', 'Congratulations');
   });
 
-  it('should remove item from cart', () => {
-    InventoryPage.addToCart('Sauce Labs Backpack');
-    InventoryPage.addToCart('Sauce Labs Bike Light');
-    InventoryPage.goToCart();
-    CartPage.removeItem('Sauce Labs Backpack');
-    CartPage.getCartItems().should('have.length', 1);
+  it('should have a log out button', () => {
+    cy.contains('Log out').should('be.visible');
   });
 
-  it('should sort products by price low to high', () => {
-    InventoryPage.sortBy('lohi');
-    InventoryPage.getProductPrices().then((prices) => {
-      const priceValues = [...prices].map((el) =>
-        parseFloat(el.innerText.replace('$', ''))
-      );
-      const sorted = [...priceValues].sort((a, b) => a - b);
-      expect(priceValues).to.deep.equal(sorted);
-    });
+  it('should log out successfully', () => {
+    cy.contains('Log out').click();
+    cy.url().should('include', 'practice-test-login');
   });
 
-  it('should sort products by name A to Z', () => {
-    InventoryPage.sortBy('az');
-    InventoryPage.getProductNames().then((names) => {
-      const nameValues = [...names].map((el) => el.innerText);
-      const sorted = [...nameValues].sort();
-      expect(nameValues).to.deep.equal(sorted);
-    });
+  it('should not access logged in page without login', () => {
+    cy.visit('/logged-in-successfully/');
+    cy.get('h1').should('be.visible');
   });
 });

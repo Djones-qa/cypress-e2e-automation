@@ -18,7 +18,9 @@ describe('Authentication', () => {
 
   it('should show error for wrong password', () => {
     LoginPage.login('standard_user', 'wrong_password');
-    LoginPage.getErrorMessage().should('be.visible');
+    LoginPage.getErrorMessage()
+      .should('be.visible')
+      .and('contain', 'Username and password do not match any user in this service');
   });
 
   it('should show error for empty credentials', () => {

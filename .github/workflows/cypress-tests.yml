@@ -21,4 +21,9 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests
-        run: npm test
+        uses: cypress-io/github-action@v6
+        with:
+          command: npm test
+        env:
+          CYPRESS_pageLoadTimeout: 60000
+          CYPRESS_defaultCommandTimeout: 10000

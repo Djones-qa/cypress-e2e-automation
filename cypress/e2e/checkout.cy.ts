@@ -5,9 +5,11 @@ import CheckoutPage from '../pages/CheckoutPage';
 
 describe('Checkout Journey', () => {
   beforeEach(() => {
-    LoginPage.visit();
-    LoginPage.login('standard_user', 'secret_sauce');
-    InventoryPage.assertOnInventoryPage();
+    cy.session('user', () => {
+      LoginPage.visit();
+      LoginPage.login('standard_user', 'secret_sauce');
+    });
+    cy.visit('/inventory.html');
   });
 
   it('should complete full checkout journey', () => {

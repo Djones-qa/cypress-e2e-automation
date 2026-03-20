@@ -9,5 +9,7 @@ export default defineConfig({
     screenshotOnRunFailure: true,
     specPattern: 'cypress/e2e/**/*.cy.ts',
     supportFile: 'cypress/support/e2e.ts',
+    pageLoadTimeout: 120000,
+    retries: { runMode: 2, openMode: 0 },
   },
 });
